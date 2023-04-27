@@ -27,7 +27,7 @@ int main(int ac __attribute__((unused)), char **argv)
 		{
 			if (isInteravtive)
 				write(1, "\n", 1);
-			exit(98);
+			exit(0);
 		}
 		pasre(&s, &argv, &status, &ORing);
 	} while (1);
