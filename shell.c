@@ -30,10 +30,7 @@ int main(int ac __attribute__((unused)), char **argv)
 			exit(98);
 		}
 		pasre(&s, &argv, &status, &ORing);
-		free(argv);
 	} while (1);
-	free(argv);
-	free(s);
 	return (0);
 }
 
@@ -61,7 +58,6 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 		tokenize(&ptr, &(*argv)[j], " \n");
 		if (built_in(ptr, *status) != -1)
 		{
-			free(ptr);
 			j++;
 			continue;
 		}
@@ -80,12 +76,9 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 			waitpid(pid, &(*status), 0);
 			if (*ORing == 2)
 			{
-				free(*argv);
-				free(ptr);
 				exit(1);
 			}
 		}
-		free(ptr);
 		j++;
 	}
 	return (0);
@@ -150,6 +143,5 @@ int64_t _getline(char **line, size_t *len, FILE *fp)
 		perror("Error reading from file.");
 		return (-1);
 	}
-	free(*line);
 	return (-1);
 }
