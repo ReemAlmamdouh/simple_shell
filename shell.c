@@ -133,9 +133,9 @@ int64_t _getline(char **line, size_t *len, FILE *fp)
 			}
 			*line = new_line;
 		}
-		strncat(*line, chunk, bytes_read);
-		if ((*line)[strlen(*line) - 1] == '\n')
-			return (strlen(*line));
+		_strncat(*line, chunk, bytes_read);
+		if ((*line)[_strlen(*line) - 1] == '\n')
+			return (_strlen(*line));
 	}
 	if (bytes_read == -1)
 	{

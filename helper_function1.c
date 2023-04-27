@@ -61,7 +61,7 @@ size_t _strlen(const char *str)
  */
 char *_strcat(char *dest, const char *src)
 {
-	char *ptr = dest + strlen(dest);
+	char *ptr = dest + _strlen(dest);
 
 	while (*src != '\0')
 	{
