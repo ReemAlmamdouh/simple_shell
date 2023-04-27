@@ -9,7 +9,7 @@
 void tokenize(char ***argv, char **s, char d[])
 {
 	char *token_tmp = _strdup(*s), *portion = _strtok(*s, d);
-	int argc = 0, i = 0;
+	int argc = 0, i = 0, j = 0;
 
 	while (portion != NULL)
 	{
@@ -19,8 +19,6 @@ void tokenize(char ***argv, char **s, char d[])
 	*argv = malloc(sizeof(char *) * (argc + 1));
 	if (*argv == NULL)
 	{
-		free(*argv);
-		free(token_tmp);
 		perror("tsh: memory allocation error");
 		exit(98);
 	}
@@ -29,6 +27,8 @@ void tokenize(char ***argv, char **s, char d[])
 		(*argv)[i] = malloc(sizeof(char) * (_strlen(token_tmp) + 1));
 		if ((*argv)[i] == NULL)
 		{
+			for (j = 0; j < i; j++)
+				free((*argv)[j]);
 			free(*argv);
 			free(token_tmp);
 			perror("tsh: memory allocation error");

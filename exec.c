@@ -3,7 +3,6 @@
 /**
  * exe_CMD - function
  * @cmd: input
- * @env: input
  * @ORing: input
  * @status: input
  * Return: int

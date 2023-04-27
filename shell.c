@@ -2,6 +2,16 @@
 
 
 
+/**
+ * handel_sigint - function
+ * @sig: input
+ */
+void handel_sigint(int sig __attribute__((unused)))
+{
+	write(1, "\n", 2);
+	write(1, "$ ", _strlen("$ "));
+}
+
 int pasre(char **s, char ***argv, int *status, int *ORing);
 /**
  * main - entry function
@@ -17,6 +27,8 @@ int main(int ac __attribute__((unused)), char **argv)
 	int status = 0;
 	int ORing = 0;
 
+	signal(SIGINT, handel_sigint);
+
 	do {
 		if (isatty(STDIN_FILENO))
 		{
@@ -30,6 +42,7 @@ int main(int ac __attribute__((unused)), char **argv)
 			exit(0);
 		}
 		pasre(&s, &argv, &status, &ORing);
+		free(argv);
 	} while (1);
 	return (0);
 }
@@ -72,12 +85,15 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 		}
 		else
 		{
-			waitpid(pid, &(*status), 0);
+			wait(&(*status));
 			if (*ORing == 2)
 			{
 				exit(1);
 			}
 		}
+		free(*ptr);
+		free(ptr);
+		free((*argv)[j]);
 		j++;
 	}
 	return (0);
@@ -140,7 +156,9 @@ int64_t _getline(char **line, size_t *len, FILE *fp)
 	if (bytes_read == -1)
 	{
 		perror("Error reading from file.");
+		free(*line);
 		return (-1);
 	}
+	free(*line);
 	return (-1);
 }
