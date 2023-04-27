@@ -8,7 +8,7 @@
  * @status: input
  * Return: int
  */
-int exe_CMD(char **cmd, char **env, int *ORing, int status)
+int exe_CMD(char **cmd, int *ORing, int status)
 {
 	char *cmd_name = NULL;
 	int exit_status;
@@ -26,7 +26,7 @@ int exe_CMD(char **cmd, char **env, int *ORing, int status)
 	if (cmd)
 	{
 		cmd_name = get_PATH(cmd[0]);
-		exit_status = execve(cmd_name, cmd, env);
+		exit_status = execve(cmd_name, cmd, environ);
 		if (exit_status == -1)
 		{
 			*ORing = 2;

@@ -8,8 +8,7 @@
  */
 void tokenize(char ***argv, char **s, char d[])
 {
-	char *token_tmp = _strdup(*s);
-	char *portion = _strtok(*s, d);
+	char *token_tmp = _strdup(*s), *portion = _strtok(*s, d);
 	int argc = 0, i = 0;
 
 	while (portion != NULL)

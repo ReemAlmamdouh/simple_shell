@@ -49,8 +49,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 
 	if (contain(*s, '&'))
 		*ORing = 1;
-
-	tokenize(&(*argv), &(*s), ";|&");
+	tokenize(&(*argv), &(*s), ";|&\n");
 	while ((*argv)[j])
 	{
 		char **ptr = NULL;
@@ -69,7 +68,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 		}
 		if (pid == 0)
 		{
-			exe_CMD(ptr, environ, &(*ORing), *status);
+			exe_CMD(ptr, &(*ORing), *status);
 		}
 		else
 		{

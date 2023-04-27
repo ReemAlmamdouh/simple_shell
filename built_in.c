@@ -1,5 +1,6 @@
 #include "main.h"
 
+void bulitin_exit(char ***cmd);
 
 /**
  * built_in - function
@@ -11,17 +12,11 @@ int built_in(char **cmd, int status)
 {
 	char *str =  NULL;
 
+	if (cmd[0] == NULL)
+		return (-1);
 	if (_strcmp(cmd[0], "exit") == 0)
 	{
-		if (cmd[1] != NULL)
-		{
-			int exit_number = _atoi(cmd[1]);
-
-			free(cmd);
-			exit(exit_number);
-		}
-		free(cmd);
-		exit(1);
+		bulitin_exit(&cmd);
 	}
 	str = malloc(sizeof(char) * (_strlen(*cmd) + 1));
 	if (_strcmp(cmd[0], "$?") == 0)
@@ -48,4 +43,22 @@ int built_in(char **cmd, int status)
 	}
 	free(str);
 	return (1);
+}
+
+
+/**
+ * bulitin_exit - function
+ * @cmd: input
+ */
+void bulitin_exit(char ***cmd)
+{
+	if ((*cmd)[1] != NULL)
+	{
+		int exit_number = _atoi((*cmd)[1]);
+
+		free(*cmd);
+		exit(exit_number);
+	}
+	free(*cmd);
+	exit(1);
 }
