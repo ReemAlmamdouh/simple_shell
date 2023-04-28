@@ -68,7 +68,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 	tokenize(&(*argv), &(*s), ";\n");
 	while ((*argv)[j])
 	{
-		char **ptr = NULL;
+		char **ptr = NULL, *tmp = NULL;
 		int i = 0;
 
 		if (empty_cmd((*argv)[j]))
@@ -86,6 +86,17 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 			j++;
 			continue;
 		}
+		tmp = get_PATH(ptr[0]);
+		if (tmp == NULL)
+		{
+			free(tmp);
+			write_error(ptr[0], av);
+			free(*ptr);
+			free(ptr);
+			j++;
+			continue;
+		}
+		free(tmp);
 		pid = fork();
 		if (pid == -1)
 		{

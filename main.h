@@ -36,6 +36,7 @@ void remove_char(char *str, char c);
 void echo_dollor(char **cmd, int status);
 int exe_CMD(char **cmd, int *ORing, int status, char **av);
 int built_in(char **cmd, int status, char ****argv);
+int write_error(char *error, char **av);
 int empty_cmd(char *str);
 
 #endif
