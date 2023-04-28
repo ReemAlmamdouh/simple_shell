@@ -60,5 +60,5 @@ void bulitin_exit(char ***cmd)
 		exit(exit_number);
 	}
 	free(*cmd);
-	exit(1);
+	exit(0);
 }
