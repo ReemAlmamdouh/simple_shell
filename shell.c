@@ -13,10 +13,11 @@ void handel_sigint(int sig __attribute__((unused)))
 }
 
 int pasre(char **s, char ***argv, int *status, int *ORing, char **av);
+
 /**
  * main - entry function
  * @ac: input
- * @argv: input
+ * @av: input
  * Return: int
  */
 int main(int ac __attribute__((unused)), char **av)
@@ -55,6 +56,7 @@ int main(int ac __attribute__((unused)), char **av)
  * @argv: input
  * @status: input
  * @ORing: input
+ * @av: input
  * Return: int
  */
 int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
@@ -95,6 +97,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 		if (pid == 0)
 		{
 			int exit_status = exe_CMD(ptr, &(*ORing), *status, av);
+
 			exit(exit_status);
 		}
 		else

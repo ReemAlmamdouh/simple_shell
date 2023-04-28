@@ -70,9 +70,5 @@ void bulitin_exit(char ***cmd, char ****argv)
 	}
 	free(*cmd);
 	free(**argv);
-	/*printf("%s --> %ld\n",**cmd, sizeof(**cmd));
-	printf("%s --> %ld\n",(*cmd)[0], sizeof((*cmd)[0]));
-	printf("%s --> %ld\n",***argv, sizeof(***argv));
-	printf("%s --> %ld\n",(**argv)[1], sizeof((**argv[1])));*/
 	exit(0);
 }
