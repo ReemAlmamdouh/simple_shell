@@ -76,7 +76,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 		}
 		tokenize(&ptr, &(*argv)[j], " \n");
 		free((*argv)[j]);
-		if (built_in(ptr, *status) != -1)
+		if (built_in(ptr, *status, argv) != -1)
 		{
 			free(*ptr);
 			free(ptr);
