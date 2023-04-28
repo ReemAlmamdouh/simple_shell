@@ -42,13 +42,14 @@ int _unsetenv(const char *name)
 char *get_PATH(char *cmd)
 {
 	char *PATH, *path_tmp, *tokenize, *fpath;
-	int len, dir_len;
+	int len = 0, dir_len;
 	struct stat buf;
 
 	PATH = _getenv("PATH");
 	if (PATH != NULL)
 	{
-		len = _strlen(cmd);
+		if (cmd)
+			len = _strlen(cmd);
 		path_tmp = _strdup(PATH);
 		tokenize = _strtok(path_tmp, ":");
 		while (tokenize != NULL)

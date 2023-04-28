@@ -62,20 +62,32 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 
 	if (contain(*s, '&'))
 		*ORing = 1;
-	tokenize(&(*argv), &(*s), ";|&\n");
+	tokenize(&(*argv), &(*s), ";\n");
 	while ((*argv)[j])
 	{
 		char **ptr = NULL;
+		int i = 0;
 
+		if (empty_cmd((*argv)[j]))
+		{
+			free((*argv)[j]);
+			j++;
+			continue;
+		}
 		tokenize(&ptr, &(*argv)[j], " \n");
+		free((*argv)[j]);
 		if (built_in(ptr, *status) != -1)
 		{
+			free(*ptr);
+			free(ptr);
 			j++;
 			continue;
 		}
 		pid = fork();
 		if (pid == -1)
 		{
+			free(*ptr);
+			free(ptr);
 			perror("Error:");
 			return (1);
 		}
@@ -86,14 +98,13 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 		else
 		{
 			wait(&(*status));
-			if (*ORing == 2)
-			{
-				exit(1);
-			}
 		}
-		free(*ptr);
+		while (ptr[i])
+		{
+			free(ptr[i]);
+			i++;
+		}
 		free(ptr);
-		free((*argv)[j]);
 		j++;
 	}
 	return (0);
