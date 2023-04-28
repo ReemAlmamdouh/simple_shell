@@ -27,6 +27,7 @@ int main(int ac __attribute__((unused)), char **av)
 	int isInteravtive = 0;
 	int status = 0;
 	int ORing = 0;
+	int x_status = 0;
 	char **argv = NULL;
 
 	signal(SIGINT, handel_sigint);
@@ -46,8 +47,49 @@ int main(int ac __attribute__((unused)), char **av)
 		pasre(&s, &argv, &status, &ORing, av);
 		free(argv);
 	} while (1);
+	return (x_status);
+}
+
+/**
+ * get_access - function
+ * @ptr: input
+ * @av: input
+ * Return: int
+ */
+int get_access(char **ptr, char **av)
+{
+	char *tmp = NULL, *tmp2 = NULL;
+	int i = 0;
+
+	tmp = malloc(sizeof(char) * (_strlen(ptr[0]) + 1));
+	_strcpy(tmp, ptr[0]);
+	tmp2 = get_PATH(tmp);
+	if (tmp2 == NULL)
+	{
+		free(tmp);
+		free(tmp2);
+		write_error(ptr[0], av);
+		i = 0;
+		while (ptr[i])
+		{
+			free(ptr[i]);
+			i++;
+		}
+		free(ptr);
+		return (1);
+	}
+	if (contain(ptr[0], '/'))
+	{
+		free(tmp);
+	}
+	else
+	{
+		free(tmp);
+		free(tmp2);
+	}
 	return (0);
 }
+
 
 
 /**
@@ -63,12 +105,10 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 {
 	int pid, j = 0;
 
-	if (contain(*s, '&'))
-		*ORing = 1;
 	tokenize(&(*argv), &(*s), ";\n");
 	while ((*argv)[j])
 	{
-		char **ptr = NULL, *tmp = NULL;
+		char **ptr = NULL;
 		int i = 0;
 
 		if (empty_cmd((*argv)[j]))
@@ -86,30 +126,20 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 			j++;
 			continue;
 		}
-		tmp = get_PATH(ptr[0]);
-		if (tmp == NULL)
+		if (get_access(ptr, av))
 		{
-			free(tmp);
-			write_error(ptr[0], av);
-			free(*ptr);
-			free(ptr);
 			j++;
 			continue;
 		}
-		free(tmp);
 		pid = fork();
 		if (pid == -1)
 		{
-			free(*ptr);
-			free(ptr);
 			perror("Error:");
 			return (1);
 		}
 		if (pid == 0)
 		{
-			int exit_status = exe_CMD(ptr, &(*ORing), *status, av);
-
-			exit(exit_status);
+			exe_CMD(ptr, &(*ORing), *status, av);
 		}
 		else
 		{
