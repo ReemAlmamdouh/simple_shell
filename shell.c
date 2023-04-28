@@ -12,20 +12,21 @@ void handel_sigint(int sig __attribute__((unused)))
 	write(1, "$ ", _strlen("$ "));
 }
 
-int pasre(char **s, char ***argv, int *status, int *ORing);
+int pasre(char **s, char ***argv, int *status, int *ORing, char **av);
 /**
  * main - entry function
  * @ac: input
  * @argv: input
  * Return: int
  */
-int main(int ac __attribute__((unused)), char **argv)
+int main(int ac __attribute__((unused)), char **av)
 {
 	char *s = NULL;
 	size_t  n = 0;
 	int isInteravtive = 0;
 	int status = 0;
 	int ORing = 0;
+	char **argv = NULL;
 
 	signal(SIGINT, handel_sigint);
 
@@ -41,7 +42,7 @@ int main(int ac __attribute__((unused)), char **argv)
 				write(1, "\n", 1);
 			exit(0);
 		}
-		pasre(&s, &argv, &status, &ORing);
+		pasre(&s, &argv, &status, &ORing, av);
 		free(argv);
 	} while (1);
 	return (0);
@@ -56,7 +57,7 @@ int main(int ac __attribute__((unused)), char **argv)
  * @ORing: input
  * Return: int
  */
-int pasre(char **s, char ***argv, int *status, int *ORing)
+int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 {
 	int pid, j = 0;
 
@@ -76,7 +77,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 		}
 		tokenize(&ptr, &(*argv)[j], " \n");
 		free((*argv)[j]);
-		if (built_in(ptr, *status, argv) != -1)
+		if (built_in(ptr, *status, &argv) != -1)
 		{
 			free(*ptr);
 			free(ptr);
@@ -93,7 +94,8 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
 		}
 		if (pid == 0)
 		{
-			exe_CMD(ptr, &(*ORing), *status);
+			int exit_status = exe_CMD(ptr, &(*ORing), *status, av);
+			exit(exit_status);
 		}
 		else
 		{
@@ -159,6 +161,7 @@ int64_t _getline(char **line, size_t *len, FILE *fp)
 				return (-1);
 			}
 			*line = new_line;
+			free(new_line);
 		}
 		_strncat(*line, chunk, bytes_read);
 		if ((*line)[_strlen(*line) - 1] == '\n')

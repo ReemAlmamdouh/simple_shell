@@ -1,6 +1,6 @@
 #include "main.h"
 
-void bulitin_exit(char ***cmd, char ***argv);
+void bulitin_exit(char ***cmd, char ****argv);
 
 /**
  * built_in - function
@@ -9,7 +9,7 @@ void bulitin_exit(char ***cmd, char ***argv);
  * @argv: input
  * Return: int
  */
-int built_in(char **cmd, int status, char ***argv)
+int built_in(char **cmd, int status, char ****argv)
 {
 	char *str =  NULL;
 
@@ -52,7 +52,7 @@ int built_in(char **cmd, int status, char ***argv)
  * @cmd: input
  * @argv: input
  */
-void bulitin_exit(char ***cmd, char ***argv)
+void bulitin_exit(char ***cmd, char ****argv)
 {
 	int i = 0;
 
@@ -69,6 +69,10 @@ void bulitin_exit(char ***cmd, char ***argv)
 		i++;
 	}
 	free(*cmd);
-	free(*argv);
+	free(**argv);
+	/*printf("%s --> %ld\n",**cmd, sizeof(**cmd));
+	printf("%s --> %ld\n",(*cmd)[0], sizeof((*cmd)[0]));
+	printf("%s --> %ld\n",***argv, sizeof(***argv));
+	printf("%s --> %ld\n",(**argv)[1], sizeof((**argv[1])));*/
 	exit(0);
 }

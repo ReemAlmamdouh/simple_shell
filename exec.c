@@ -1,5 +1,25 @@
 #include "main.h"
+int write_error(char *error, char **av)
+{
+	char *command = error;
+	char *shell = (av)[0];
+	char *error_message = _strdup(shell);
+	int error_message_length = _strlen(shell);
 
+	error_message = _realloc(error_message, _strlen(shell), 50);
+	_memcpy(error_message + error_message_length, ": 1: ", 5);
+
+	error_message_length += 5;
+	_memcpy(error_message + error_message_length, command, _strlen(command));
+
+	error_message_length += _strlen(command);
+	_memcpy(error_message + error_message_length, ": not found\n", 12);
+
+	error_message_length += 12;
+	write(STDERR_FILENO, error_message, error_message_length);
+	free(error_message);
+	return 1;
+}
 /**
  * exe_CMD - function
  * @cmd: input
@@ -7,7 +27,7 @@
  * @status: input
  * Return: int
  */
-int exe_CMD(char **cmd, int *ORing, int status)
+int exe_CMD(char **cmd, int *ORing, int status, char **av)
 {
 	char *cmd_name = NULL;
 	int exit_status;
@@ -29,7 +49,7 @@ int exe_CMD(char **cmd, int *ORing, int status)
 		if (exit_status == -1)
 		{
 			*ORing = 2;
-			perror("Error:");
+			write_error(cmd[0], av);
 			free(cmd);
 			exit(1);
 		}
