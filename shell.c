@@ -119,7 +119,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing)
  */
 int64_t _getline(char **line, size_t *len, FILE *fp)
 {
-	char chunk[1024];
+	char chunk[44024];
 	ssize_t bytes_read;
 	size_t total_bytes_read = 0;
 
