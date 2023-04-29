@@ -105,7 +105,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 {
 	int pid, j = 0;
 
-	tokenize(&(*argv), &(*s), ";\n");
+	tokenize(&(*argv), &(*s), "|&;\n");
 	while ((*argv)[j])
 	{
 		char **ptr = NULL;
