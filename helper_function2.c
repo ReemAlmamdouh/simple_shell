@@ -124,3 +124,23 @@ int _atoi(char *s)
 
 	return (n);
 }
+
+/**
+ * empty_cmd - function
+ * @str: input
+ * Return: int
+ */
+int empty_cmd(char *str)
+{
+	int i;
+	int len = _strlen(str);
+
+	for (i = 0; i < len; i++)
+	{
+		if (str[i] != ' ')
+		{
+			return (0);
+		}
+	}
+	return (1);
+}
