@@ -45,6 +45,8 @@ char *get_PATH(char *cmd)
 	int len = 0, dir_len;
 	struct stat buf;
 
+	if (contain(cmd, '/'))
+		return (cmd);
 	PATH = _getenv("PATH");
 	if (PATH != NULL)
 	{

@@ -23,13 +23,16 @@ int built_in(char **cmd, int status, char ****argv)
 	if (_strcmp(cmd[0], "$?") == 0)
 	{
 		int_to_str(&(*str), status);
-		write(1, str, _strlen(str));
+		printf("%ld\n", _strlen(str));
+		printf("%s\n", str);
+		write(1, str, _strlen(str) - 1);
 		write(1, "\n", 1);
 	}
 	else if (_strcmp(cmd[0], "$$") == 0)
 	{
 		int_to_str(&(*str), getpid());
-		write(1, str, _strlen(str));
+		printf("%ld\n", _strlen(str));
+		write(1, str, _strlen(str) - 1);
 		write(1, "\n", 1);
 	}
 	else if (_strcmp(cmd[0], "unsetenv") == 0)
@@ -60,7 +63,12 @@ void bulitin_exit(char ***cmd, char ****argv)
 	{
 		int exit_number = _atoi((*cmd)[1]);
 
-		free(*cmd);
+		while (cmd[i])
+		{
+			free(cmd[i]);
+			i++;
+		}
+		free(cmd);
 		exit(exit_number);
 	}
 	while ((*cmd)[i])

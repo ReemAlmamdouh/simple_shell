@@ -35,7 +35,7 @@ void int_to_str(char *str, int num);
 void tokenize(char ***argv, char **s, char d[]);
 void remove_char(char *str, char c);
 void echo_dollor(char **cmd, int status);
-int exe_CMD(char **cmd, int *ORing, int status, char **av);
+int exe_CMD(char **cmd, int *ORing, int **status, char **av);
 int built_in(char **cmd, int status, char ****argv);
 int write_error(char *error, char **av);
 int empty_cmd(char *str);

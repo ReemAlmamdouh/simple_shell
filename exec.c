@@ -25,7 +25,7 @@ int write_error(char *error, char **av)
 	error_message_length += 12;
 	write(STDERR_FILENO, error_message, error_message_length);
 	free(error_message);
-	return (1);
+	return (0);
 }
 /**
  * exe_CMD - function
@@ -35,7 +35,7 @@ int write_error(char *error, char **av)
  * @av: input
  * Return: int
  */
-int exe_CMD(char **cmd, int *ORing, int status, char **av)
+int exe_CMD(char **cmd, int *ORing, int **status, char **av)
 {
 	char *cmd_name = NULL;
 	int exit_status;
@@ -45,7 +45,7 @@ int exe_CMD(char **cmd, int *ORing, int status, char **av)
 	{
 		if (cmd[i][0] == '$')
 		{
-			echo_dollor(&cmd[i], status);
+			echo_dollor(&cmd[i], **status);
 		}
 		i++;
 	}
@@ -59,7 +59,7 @@ int exe_CMD(char **cmd, int *ORing, int status, char **av)
 			*ORing = 2;
 			write_error(cmd[0], av);
 			free(cmd);
-			exit(1);
+			exit(**status);
 		}
 	}
 	return (exit_status);

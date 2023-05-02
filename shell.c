@@ -27,7 +27,6 @@ int main(int ac __attribute__((unused)), char **av)
 	int isInteravtive = 0;
 	int status = 0;
 	int ORing = 0;
-	int x_status = 0;
 	char **argv = NULL;
 
 	signal(SIGINT, handel_sigint);
@@ -42,12 +41,13 @@ int main(int ac __attribute__((unused)), char **av)
 		{
 			if (isInteravtive)
 				write(1, "\n", 1);
-			exit(0);
+			exit(status);
 		}
 		pasre(&s, &argv, &status, &ORing, av);
 		free(argv);
 	} while (1);
-	return (x_status);
+	printf("exit 1\n");
+	return (status);
 }
 
 /**
@@ -128,6 +128,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 		}
 		if (get_access(ptr, av))
 		{
+			*status = 127;
 			j++;
 			continue;
 		}
@@ -139,7 +140,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 		}
 		if (pid == 0)
 		{
-			exe_CMD(ptr, &(*ORing), *status, av);
+			exe_CMD(ptr, &(*ORing), &status, av);
 		}
 		else
 		{
@@ -153,7 +154,7 @@ int pasre(char **s, char ***argv, int *status, int *ORing, char **av)
 		free(ptr);
 		j++;
 	}
-	return (0);
+	return (89);
 }
 
 /**
